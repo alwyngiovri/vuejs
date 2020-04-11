@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <title>Vue.Js Tutorials</title>
+</head>
+
+<body>
+    <div id="app">
+        <div style=" display: flex;">
+            <div style="float: left; width: 50%; padding: 10px;">
+                <input type="text" v-model="input" v-on:keyup.enter="addTodo">
+
+                <div v-for="(todo, idx) in todos" style="width: 300px; clear: both;">
+                    <span style="float: left;">
+                        <input type="checkbox" :id="todo.id" :checked="todo.checked" @change="toggleChecked(todo)" >
+                    </span>
+                    <span v-if="todo.checked == true" style="float: left; text-decoration: line-through;">
+                        <input v-if="todo.edit" v-model="todo.title" @blur="todo.edit = false; $emit('update')"
+                            @keyup.enter="todo.edit=false; $emit('update')" v-focus>
+                        <div v-else>
+                            <label @click="todo.edit = true;"> {{todo.title}} </label>
+                        </div>
+                    </span>
+                    <span v-if="todo.checked == false" style="float: left; ">
+                        <input v-if="todo.edit" v-model="todo.title" @blur="todo.edit = false; $emit('update')"
+                            @keyup.enter="todo.edit=false; $emit('update')" v-focus>
+                        <div v-else>
+                            <label @click="todo.edit = true;"> {{todo.title}} </label>
+                        </div>
+                    </span>
+                    <span style="float: right;">
+                        <a href="#" style="text-decoration: none; color: red;" @click="removeTodo(idx)">remove</a>
+                    </span>
+                </div>
+                <br>
+                <br>
+                <div style="clear: both;">
+                    <input type="checkbox" @change="toggleAll" :checked="selectAll">
+                    <button @click="all">All</button>
+                    <button @click="checked">Completed</button>
+                    <button @click="pending">Pending</button>
+                </div>
+                <br>
+                <br>
+                <p>Isi todo :</p>
+                {{ todos }}
+            </div>
+
+            <div style="float: left; width: 50%; padding: 10px;">
+                <ul>
+                    <li v-for="list in lists">
+                        {{ list.title }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/vue.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>
